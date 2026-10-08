@@ -150,6 +150,14 @@ a{color:#F7E2A8}a:hover{color:#FFFFFF}
 .fam h3{margin:0 0 8px;font-family:Marcellus,serif;font-weight:400;font-size:12px;letter-spacing:.32em;text-transform:uppercase;color:#E3B75C}
 .fam p{margin:0;font-family:Gloock,serif;font-size:22px;line-height:1.4}
 .foot{margin-top:50px;display:flex;flex-direction:column;align-items:center;gap:10px;color:#E4D6BE}
+/* readable family + closing panels over the temple scene */
+.fam,.foot{position:relative;z-index:3;box-sizing:border-box;width:min(820px,calc(100% - 32px));margin-left:auto;margin-right:auto;background:linear-gradient(180deg,rgba(26,7,9,.86),rgba(13,4,6,.92));border:1px solid rgba(227,183,92,.45);border-radius:22px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.fam{margin-top:28px;padding:26px 20px;gap:22px}
+.fam h3{font-family:Manrope,'Segoe UI',sans-serif;font-weight:600;font-size:14px;letter-spacing:.16em;color:#F7E2A8}
+.fam p{font-size:21px;color:#FFF6E6}
+.foot{margin-top:18px;padding:22px 18px 26px}
+.foot .lab{font-family:Manrope,'Segoe UI',sans-serif;font-weight:600;font-size:16px;letter-spacing:.04em;text-transform:none;color:#F7E2A8 !important;word-break:break-word}
+.foot .dis{color:#FFF6E6;line-height:1.35}
 
 @media (max-width:760px){
   .s-relics .stick{justify-content:flex-end;padding:30px 16px}
