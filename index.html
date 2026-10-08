@@ -1266,4 +1266,43 @@ window.__mountInvite(Component);</script>
 </script>
 
 
-<a href="blob:null/6cffd2c1-0665-4c51-89d0-9e13af97ad19" download="Reception-Invite-Temple-Journey-3D-Vimal-Kanth-Sindhuja.html"></a></body></html>
+<a href="blob:null/6cffd2c1-0665-4c51-89d0-9e13af97ad19" download="Reception-Invite-Temple-Journey-3D-Vimal-Kanth-Sindhuja.html"></a><!-- Background music: put music.mp3 next to index.html. The button stays hidden until that file exists. -->
+<audio id="bgm" src="music.mp3" loop preload="auto"></audio>
+<button id="musicBtn" type="button" aria-label="Music on/off" style="display:none;position:fixed;right:16px;bottom:16px;z-index:9999;width:48px;height:48px;border-radius:50%;border:1px solid #E3B75C;background:rgba(13,4,6,.75);color:#F8EEDC;font-size:20px;line-height:1;cursor:pointer;-webkit-tap-highlight-color:transparent">&#128263;</button>
+<script>
+(function () {
+  var a = document.getElementById('bgm'), b = document.getElementById('musicBtn');
+  var started = false, userMuted = false;
+  fetch('music.mp3', { method: 'HEAD' }).then(function (r) {
+    if (!r.ok) return;
+    b.style.display = 'block';
+    ['pointerdown', 'touchend', 'click', 'keydown'].forEach(function (e) {
+      document.addEventListener(e, start, { passive: true });
+    });
+  }).catch(function () {});
+  function fadeIn() {
+    a.volume = 0;
+    var t = setInterval(function () { a.volume = Math.min(0.6, a.volume + 0.05); if (a.volume >= 0.6) clearInterval(t); }, 120);
+  }
+  function play() {
+    started = true; fadeIn();
+    return a.play().catch(function (e) { started = false; throw e; });
+  }
+  function start(ev) {
+    if (started || userMuted || (ev && ev.target === b)) return;
+    play().catch(function () {});
+  }
+  a.addEventListener('playing', function () { b.innerHTML = '&#128266;'; });
+  a.addEventListener('pause', function () { b.innerHTML = '&#128263;'; });
+  b.addEventListener('click', function (ev) {
+    ev.stopPropagation();
+    if (a.paused) { userMuted = false; play().catch(function () {}); }
+    else { userMuted = true; a.pause(); }
+  });
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden) a.pause();
+    else if (started && !userMuted) a.play().catch(function () {});
+  });
+})();
+</script>
+</body></html>
