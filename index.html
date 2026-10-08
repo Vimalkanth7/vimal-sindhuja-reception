@@ -1264,9 +1264,33 @@ window.__mountInvite(Component);</script>
 </script>
 
 
-<a href="blob:null/6cffd2c1-0665-4c51-89d0-9e13af97ad19" download="Reception-Invite-Temple-Journey-3D-Vimal-Kanth-Sindhuja.html"></a><!-- Background music: put music.mp3 next to index.html. The button stays hidden until that file exists. -->
+<a href="blob:null/6cffd2c1-0665-4c51-89d0-9e13af97ad19" download="Reception-Invite-Temple-Journey-3D-Vimal-Kanth-Sindhuja.html"></a><!-- Welcome gate: the guest's tap on "Open Invitation" is what lets the phone start the music -->
+<style>
+#gate{position:fixed;inset:0;z-index:10000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:24px;text-align:center;background:radial-gradient(120% 80% at 50% 35%,#3A0A12 0%,#0D0406 70%);color:#F8EEDC;touch-action:none;cursor:pointer;transition:opacity .7s ease,visibility .7s;-webkit-tap-highlight-color:transparent}
+#gate.gone{opacity:0;visibility:hidden;pointer-events:none}
+#gate .g-om{font-family:Kavivanar,'Noto Sans Tamil',serif;font-size:40px;color:#E3B75C;line-height:1}
+#gate .g-lab{font:600 12px/1 Manrope,'Segoe UI',sans-serif;letter-spacing:.32em;text-transform:uppercase;color:#E3B75C}
+#gate .g-photo{width:min(170px,42vw);aspect-ratio:3/4;border-radius:999px 999px 14px 14px;overflow:hidden;box-shadow:0 0 0 2px #E3B75C,0 0 0 8px rgba(13,4,6,.7),0 0 0 9px rgba(227,183,92,.45);margin:6px 0 4px}
+#gate .g-photo img{width:100%;height:100%;object-fit:cover;object-position:50% 30%;display:block}
+#gate .g-names{font-family:Gloock,'Times New Roman',serif;font-size:clamp(30px,8.5vw,46px);line-height:1.1;color:#F7E2A8}
+#gate .g-names i{font-style:normal;color:#E3B75C;font-size:.7em}
+#gate .g-date{font:500 15px/1.4 Manrope,'Segoe UI',sans-serif;color:#E4D6BE;letter-spacing:.08em}
+#gate .g-btn{margin-top:10px;min-height:52px;padding:0 30px;border-radius:999px;border:0;font:600 15px/1 Manrope,'Segoe UI',sans-serif;letter-spacing:.08em;color:#1A0709;background:linear-gradient(180deg,#F7E2A8,#E3B75C 60%,#B4832F);cursor:pointer;animation:gpulse 2.2s ease-in-out infinite}
+#gate .g-hint{font:400 12px/1 Manrope,'Segoe UI',sans-serif;color:#CDBFA6;opacity:.8}
+@keyframes gpulse{0%,100%{box-shadow:0 0 0 0 rgba(227,183,92,.45)}50%{box-shadow:0 0 0 12px rgba(227,183,92,0)}}
+</style>
+<div id="gate" role="dialog" aria-label="Open the invitation">
+  <span class="g-om">உ</span>
+  <span class="g-lab">Wedding Reception</span>
+  <div class="g-photo"><img src="assets/couple.jpg" alt="Vimal Kanth and Sindhuja"></div>
+  <div class="g-names">Vimal Kanth <i>&amp;</i> Sindhuja</div>
+  <div class="g-date">Thursday · 29 October 2026</div>
+  <button class="g-btn" type="button">Open Invitation</button>
+  <span class="g-hint">&#127925; with music</span>
+</div>
+<!-- Background music: put music.mp3 next to index.html. The button stays hidden until that file exists. -->
 <audio id="bgm" src="music.mp3" loop preload="auto"></audio>
-<button id="musicBtn" type="button" aria-label="Music on/off" style="display:none;position:fixed;right:max(12px,env(safe-area-inset-right));top:max(12px,env(safe-area-inset-top));z-index:9999;width:42px;height:42px;border-radius:50%;border:1px solid #E3B75C;background:rgba(13,4,6,.75);color:#F8EEDC;font-size:18px;line-height:1;cursor:pointer;-webkit-tap-highlight-color:transparent">&#128263;</button>
+<button id="musicBtn" type="button" aria-label="Music on/off" style="display:none;position:fixed;right:max(12px,env(safe-area-inset-right));top:calc(66px + env(safe-area-inset-top));z-index:9999;width:42px;height:42px;border-radius:50%;border:1px solid #E3B75C;background:rgba(13,4,6,.75);color:#F8EEDC;font-size:18px;line-height:1;cursor:pointer;-webkit-tap-highlight-color:transparent">&#128263;</button>
 <script>
 (function () {
   var a = document.getElementById('bgm'), b = document.getElementById('musicBtn');
@@ -1297,6 +1321,15 @@ window.__mountInvite(Component);</script>
     if (a.paused) { userMuted = false; play().catch(function () {}); }
     else { userMuted = true; a.pause(); }
   });
+  var gate = document.getElementById('gate');
+  function openGate(ev) {
+    if (ev) ev.preventDefault();
+    if (!started && !userMuted) play().catch(function () {});
+    gate.classList.add('gone');
+  }
+  gate.addEventListener('click', openGate);
+  gate.addEventListener('wheel', function (ev) { ev.preventDefault(); }, { passive: false });
+  gate.addEventListener('touchmove', function (ev) { ev.preventDefault(); }, { passive: false });
   document.addEventListener('visibilitychange', function () {
     if (document.hidden) a.pause();
     else if (started && !userMuted) a.play().catch(function () {});
